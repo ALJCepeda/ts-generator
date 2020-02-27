@@ -1,0 +1,148 @@
+openapi: 3.0.0
+info:
+  description: API for AJC Web Services
+  version: "1.0.0"
+  title: AJC Web API
+  contact:
+    email: alfredjcepeda@gmail.com
+paths:
+  /timeline:
+    get:
+      tags:
+        - Timeline
+      summary: Fetches array of Timeline Entries
+      operationId: Timeline.entries
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+        - in: query
+          name: page
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Array of Timeline Entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimelineEntryMutts'
+        '400':
+          $ref: '#/components/responses/InvalidInput'
+    post:
+      tags:
+        - Timeline
+      summary: Creates TimelineEntry
+      operationId: Timeline.create
+      responses:
+        '201':
+          description: TimelineEntry created
+        '400':
+          $ref: '#/components/responses/InvalidInput'
+      requestBody:
+        description: TimelineEntry to add
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/TimelineEntry'
+              required:
+                - message
+                - imageURL
+                - label
+  /timeline/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+    post:
+      tags:
+        - Timeline
+      summary: Update a TimelineEntry
+      operationId: TimelineEntry.update
+      responses:
+        '200':
+          description: TimelineEntry updated
+        '400':
+          $ref: '#/components/responses/InvalidInput'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      requestBody:
+        description: Fields to update on TimelineEntry
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimelineEntryMutts'
+    delete:
+      tags:
+        - Timeline
+      summary: Remove a TimelineEntry
+      operationId: Timeline.remove
+      responses:
+        '200':
+          description: TimelineEntry removed
+        '400':
+          $ref: '#/components/responses/InvalidInput'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InvalidInput:
+      description: There was something wrong with the RequestBody
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    TimelineEntryMutts:
+      type: object
+      properties:
+        message:
+          type: string
+        imageURL:
+          type: string
+        labelURL:
+          type: string
+          description: URL for label. If present will turn label into a link
+        label:
+          type: string
+        when:
+          type: string
+          format: DateTime
+          description: DateTime of entry, integral to sorting
+    TimelineEntry:
+      allOf:
+        - $ref: '#/components/schemas/TimelineEntryMutts'
+        - type: object
+          required:
+            - message
+            - imageURL
+            - label
+          properties:
+            id:
+              type: integer
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/ALJCepeda/ajc-web/1.0.0
