@@ -1,34 +1,17 @@
 import * as yaml from 'js-yaml';
-import * as ejs from 'ejs';
 import { readFileSync } from 'fs';
-import { JSONSchema7 } from 'json-schema';
 import { OpenAPIV3 } from "openapi-types";
+import {generateModelMetadata} from "./services/generateModelMetadata";
+import {renderMetadata} from "./services/renderMetadata";
 
-const doc = yaml.safeLoad(readFileSync('src/swagger.yaml', 'utf8')) as OpenAPIV3.Document;
+const document = yaml.safeLoad(readFileSync('src/swagger.yaml', 'utf8')) as OpenAPIV3.Document;
 
-function isNonArraySchemaObject(obj: any): obj is OpenAPIV3.NonArraySchemaObject {
-  return obj.type === 'object';
-}
+const modelMetadata = generateModelMetadata(document);
 
-const data = {
-  models: Object.entries(doc.components.schemas).reduce((acc, [key, value]) => {
-    if(isNonArraySchemaObject(value)) {
-      acc.push({
-        name: key,
-        ...value as object
-      });
-    }
-
-    return acc;
-  }, [])
-};
-
-ejs.renderFile('src/templates/models/interface.ejs', data.models[0], (err, str) => {
-  if(err) {
-    console.error(err);
-  } else {
-    console.log(str);
-  }
+Promise.all(
+  renderMetadata(modelMetadata)
+).then((modelCode) => {
+  modelCode.forEach((code) => console.log(code));
 });
 
 type Require<T, K> = { [P in Extract<keyof T, K>]: T[P] }

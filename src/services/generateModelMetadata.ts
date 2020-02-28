@@ -12,7 +12,7 @@ function getSchemas(document:OpenAPIV3.Document): { [key: string]: OpenAPIV3.Ref
   return document.components.schemas;
 }
 
-export function generateModelMetadata(document:OpenAPIV3.Document) {
+export function generateModelMetadata(document:OpenAPIV3.Document):Array<ReferenceMetadata | ObjectMetadata> {
   const schemas = getSchemas(document);
 
   return Object.entries(schemas).reduce((result, [name, schema]) => {
