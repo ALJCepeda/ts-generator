@@ -3,7 +3,7 @@ import {isObjectMetadata, isReferenceMetadata} from "./guards";
 
 interface RenderedContent {
   interfaces: string[]
-  aliases: string[]
+  types: string[]
 }
 
 interface RenderMetadata {
@@ -16,9 +16,9 @@ function renderInterfaces(interfaceMetadata:ObjectMetadata[]): Promise<string>[]
   });
 }
 
-function renderAliases(referenceMetadata:ReferenceMetadata[]): Promise<string>[] {
+function renderTypes(referenceMetadata:ReferenceMetadata[]): Promise<string>[] {
   return referenceMetadata.map((referenceMetadata) => {
-    return ejs.renderFile('src/templates/alias.ejs', referenceMetadata);
+    return ejs.renderFile('src/templates/type.ejs', referenceMetadata);
   });
 }
 
@@ -27,10 +27,10 @@ export async function renderMetadata(metadata:RenderMetadata): Promise<RenderedC
   const referenceMetadata = metadata.models.filter((modelMetadata) => isReferenceMetadata(modelMetadata)) as ReferenceMetadata[];
 
   const interfaces = await Promise.all(renderInterfaces(objectMetadata));
-  const aliases = await Promise.all(renderAliases(referenceMetadata));
+  const types = await Promise.all(renderTypes(referenceMetadata));
 
   return {
     interfaces,
-    aliases
+    types
   };
 }

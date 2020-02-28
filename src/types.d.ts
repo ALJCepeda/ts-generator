@@ -6,6 +6,7 @@ interface SimpleTypeMetadata {
 
 interface PropertyMetadata extends SimpleTypeMetadata{
   discriminator: 'property';
+  required: boolean;
 }
 
 interface ReferenceMetadata extends SimpleTypeMetadata {

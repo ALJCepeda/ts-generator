@@ -6,9 +6,14 @@ import {generateReferenceMetadata} from "./generateReferenceMetadata";
 type StringMap = { [key:string]: string };
 
 interface GeneratePropertyMetadataOptions {
+  required?: string[],
   formatMap?: StringMap,
   referenceMap?: StringMap,
   useFormatAsType?: boolean
+}
+
+function isRequired(name:string, options:GeneratePropertyMetadataOptions): boolean {
+  return Array.isArray(options.required) && options.required.includes(name);
 }
 
 export function generatePropertyMetadata(name:string, schema:OpenAPIV3.NonArraySchemaObject | OpenAPIV3.ReferenceObject, options:GeneratePropertyMetadataOptions = {}): PropertyMetadata | ObjectMetadata {
@@ -27,25 +32,23 @@ export function generatePropertyMetadata(name:string, schema:OpenAPIV3.NonArrayS
       }
     }
 
-    return { discriminator:'property', name, type };
-  }
-
-  if(isReferenceObject(schema)) {
-    if(!options.referenceMap) {
-      throw new Error('No referenceMap available');
-    }
-
-    if(!options.referenceMap[schema.$ref]) {
-      throw new Error(`Unable to find reference: ${schema.$ref}`);
-    }
-
-    const aliasMetadata = generateReferenceMetadata(name, schema);
     return {
-      discriminator: 'property',
+      discriminator:'property',
       name,
-      type: aliasMetadata.type
+      type,
+      required: isRequired(name, options)
     };
   }
 
+  if(isReferenceObject(schema)) {
+    const referenceMetadata = generateReferenceMetadata(name, schema);
+    return {
+      discriminator: 'property',
+      name,
+      type: referenceMetadata.type,
+      required: isRequired(name, options)
+    }
+  }
+
   throw new Error('Unknown schema object provided');
-};
+}

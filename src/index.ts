@@ -1,5 +1,5 @@
 import * as yaml from 'js-yaml';
-import { readFileSync } from 'fs';
+import { readFileSync, createWriteStream } from 'fs';
 import { OpenAPIV3 } from "openapi-types";
 import {generateModelMetadata} from "./services/generateModelMetadata";
 import {renderMetadata} from "./services/renderMetadata";
@@ -11,6 +11,11 @@ const modelMetadata = generateModelMetadata(document);
 renderMetadata({
   models: modelMetadata
 }).then((content) => {
-  content.interfaces.forEach((interfaceCode) => console.log(interfaceCode));
-  content.aliases.forEach((aliasCode) => console.log(aliasCode));
+  const declarationFile = createWriteStream('gen/types.d.ts');
+
+  content.types.forEach((typeCode) => declarationFile.write(typeCode + ';\n'))
+  declarationFile.write('\n');
+  content.interfaces.forEach((interfaceCode) => declarationFile.write(interfaceCode + '\n'));
+
+  declarationFile.end();
 });

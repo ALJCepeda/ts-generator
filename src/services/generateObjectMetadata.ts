@@ -19,10 +19,17 @@ export function generateObjectMetadata(name: string, schema:OpenAPIV3.NonArraySc
   }
 
   const properties = Object.entries(schema.properties).reduce((result, [propName, propSchema]) => {
-    const propMetadata = generatePropertyMetadata(propName, propSchema as NonArraySchemaObject);
+    const propMetadata = generatePropertyMetadata(propName, propSchema as NonArraySchemaObject, {
+      required: schema.required
+    });
+
     result.push(propMetadata);
     return result;
   }, [] as Array<PropertyMetadata | ObjectMetadata>);
 
-  return { discriminator:'object', name, properties };
+  return {
+    discriminator:'object',
+    name,
+    properties
+  };
 }

@@ -1,5 +1,5 @@
 interface <%- name %> {
 <% properties.forEach((propMetadata) => { -%>
-  <%- propMetadata.name %>: <%- propMetadata.type %>;
+  <%- propMetadata.name %><%- !propMetadata.required ? '?' : '' %>: <%- propMetadata.type %>;
 <% }) -%>
 }

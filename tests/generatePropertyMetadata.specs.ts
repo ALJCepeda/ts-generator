@@ -2,13 +2,24 @@ import 'mocha';
 import { expect } from 'chai';
 import { generatePropertyMetadata } from '../src/services/generatePropertyMetadata';
 
-describe('generatePropertyMetadata', function() {
+describe.only('generatePropertyMetadata', function() {
   it('should create metadata for string type', function() {
     const result = generatePropertyMetadata('firstname', { type:'string' });
     expect(result).to.deep.equal({
       discriminator: 'property',
       name: 'firstname',
-      type: 'string'
+      type: 'string',
+      required: false
+    });
+  });
+
+  it('should create metadata for string type and make it required', function() {
+    const result = generatePropertyMetadata('firstname', { type:'string' }, { required:['firstname'] });
+    expect(result).to.deep.equal({
+      discriminator: 'property',
+      name: 'firstname',
+      type: 'string',
+      required: true
     });
   });
 
@@ -23,7 +34,8 @@ describe('generatePropertyMetadata', function() {
     expect(result).to.deep.equal({
       discriminator: 'property',
       name:'birthday',
-      type:'Moment'
+      type:'Moment',
+      required: false
     })
   });
 
@@ -38,7 +50,8 @@ describe('generatePropertyMetadata', function() {
     expect(result).to.deep.equal({
       discriminator: 'property',
       name:'ip',
-      type:'ipv4'
+      type:'ipv4',
+      required: false
     });
   });
 
@@ -52,7 +65,8 @@ describe('generatePropertyMetadata', function() {
     expect(result).to.deep.equal({
       discriminator: 'property',
       name:'error',
-      type:'Error'
+      type:'Error',
+      required: false
     });
   });
 });
