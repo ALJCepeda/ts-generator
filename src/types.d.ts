@@ -1,10 +1,16 @@
-interface PropertyMetadata {
-  discriminator: 'alias' | 'property';
+interface SimpleTypeMetadata {
+  discriminator: 'property' | 'reference';
   name: string;
   type: string;
 }
 
-type ReferenceMetadata = PropertyMetadata;
+interface PropertyMetadata extends SimpleTypeMetadata{
+  discriminator: 'property';
+}
+
+interface ReferenceMetadata extends SimpleTypeMetadata {
+  discriminator: 'reference';
+}
 
 interface ObjectMetadata {
   discriminator: 'object';

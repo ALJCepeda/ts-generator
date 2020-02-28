@@ -26,7 +26,7 @@ export function generateModelMetadata(document:OpenAPIV3.Document):Array<Referen
 
     return result;
   }, [] as Array<ReferenceMetadata | ObjectMetadata>).sort((a, b) => {
-    if(a.discriminator === 'alias') {
+    if(a.discriminator === 'reference') {
       return -1;
     }
 

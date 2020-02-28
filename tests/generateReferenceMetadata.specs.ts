@@ -9,7 +9,7 @@ describe('generateReferenceMetadata', function() {
     });
 
     expect(result).to.deep.equal({
-      discriminator: 'alias',
+      discriminator: 'reference',
       name:'GenericError',
       type:'Error'
     });

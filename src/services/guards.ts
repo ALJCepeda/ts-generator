@@ -7,3 +7,11 @@ export function isNonArraySchemaObject(obj:any): obj is OpenAPIV3.NonArraySchema
 export function isReferenceObject(obj:any): obj is OpenAPIV3.ReferenceObject {
   return typeof obj.$ref === 'string';
 }
+
+export function isObjectMetadata(obj:any): obj is ObjectMetadata {
+  return obj.discriminator === 'object';
+}
+
+export function isReferenceMetadata(obj:any): obj is ReferenceMetadata {
+  return obj.discriminator === 'reference';
+}

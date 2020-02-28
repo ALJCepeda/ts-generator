@@ -105,6 +105,8 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    GeneralError:
+      $ref: '#/components/schemas/Error'
     TimelineEntryMutts:
       type: object
       properties:
@@ -142,7 +144,3 @@ components:
       required:
         - code
         - message
-# Added by API Auto Mocking Plugin
-servers:
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/ALJCepeda/ajc-web/1.0.0

@@ -8,33 +8,9 @@ const document = yaml.safeLoad(readFileSync('src/swagger.yaml', 'utf8')) as Open
 
 const modelMetadata = generateModelMetadata(document);
 
-Promise.all(
-  renderMetadata(modelMetadata)
-).then((modelCode) => {
-  modelCode.forEach((code) => console.log(code));
+renderMetadata({
+  models: modelMetadata
+}).then((content) => {
+  content.interfaces.forEach((interfaceCode) => console.log(interfaceCode));
+  content.aliases.forEach((aliasCode) => console.log(aliasCode));
 });
-
-type Require<T, K> = { [P in Extract<keyof T, K>]: T[P] }
-
-type Entity<T> = T & {
-  id: number;
-  createOn: Date;
-}
-
-type MutableEntity<T> = Entity<T> & {
-  modifiedOn: Date;
-}
-
-interface TimelineEntryMutts {
-  message?: string;
-  label?: string;
-}
-
-interface TimelineEntry extends Require<TimelineEntryMutts, 'message' | 'label'> {
-
-}
-/*
-class Test implements Entity<TimelineEntry> {
-  message: string;
-  label: string;
-}*/

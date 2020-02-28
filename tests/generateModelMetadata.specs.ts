@@ -29,7 +29,7 @@ describe('generateModelMetadata', function() {
     });
 
     expect(result).to.deep.equal([{
-      discriminator: 'alias',
+      discriminator: 'reference',
       name: 'GeneralError',
       type: 'Error'
     }, {
