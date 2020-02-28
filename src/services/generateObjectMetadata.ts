@@ -2,15 +2,15 @@ import {OpenAPIV3} from "openapi-types";
 import { generatePropertyMetadata } from './generatePropertyMetadata';
 import NonArraySchemaObject = OpenAPIV3.NonArraySchemaObject;
 
+function isObjectSchema(obj:any): obj is ObjectSchema {
+  return obj.type === 'object' && obj.properties;
+}
+
 interface ObjectSchema extends OpenAPIV3.NonArraySchemaObject {
   type: 'object';
   properties: {
     [name: string]: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject;
   }
-}
-
-function isObjectSchema(obj:any): obj is ObjectSchema {
-  return obj.type === 'object' && obj.properties;
 }
 
 export function generateObjectMetadata(name: string, schema:OpenAPIV3.NonArraySchemaObject): ObjectMetadata {
@@ -24,5 +24,5 @@ export function generateObjectMetadata(name: string, schema:OpenAPIV3.NonArraySc
     return result;
   }, [] as Array<PropertyMetadata | ObjectMetadata>);
 
-  return { name, type:'object', properties };
+  return { discriminator:'object', name, properties };
 }

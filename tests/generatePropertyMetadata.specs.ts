@@ -5,7 +5,11 @@ import { generatePropertyMetadata } from '../src/services/generatePropertyMetada
 describe('generatePropertyMetadata', function() {
   it('should create metadata for string type', function() {
     const result = generatePropertyMetadata('firstname', { type:'string' });
-    expect(result).to.deep.equal({ name: 'firstname', type: 'string' });
+    expect(result).to.deep.equal({
+      discriminator: 'property',
+      name: 'firstname',
+      type: 'string'
+    });
   });
 
   it('should create metadata for date type if there\'s a map', function() {
@@ -16,7 +20,11 @@ describe('generatePropertyMetadata', function() {
       formatMap: { 'date':'Moment' }
     });
 
-    expect(result).to.deep.equal({ name:'birthday', type:'Moment' })
+    expect(result).to.deep.equal({
+      discriminator: 'property',
+      name:'birthday',
+      type:'Moment'
+    })
   });
 
   it('should use format as type when specified', function() {
@@ -27,7 +35,11 @@ describe('generatePropertyMetadata', function() {
       useFormatAsType: true
     });
 
-    expect(result).to.deep.equal({ name:'ip', type:'ipv4' });
+    expect(result).to.deep.equal({
+      discriminator: 'property',
+      name:'ip',
+      type:'ipv4'
+    });
   });
 
   it('should grab type from provided reference map', function() {
@@ -37,6 +49,10 @@ describe('generatePropertyMetadata', function() {
       referenceMap: { '#/components/schemas/Error':'Error' }
     });
 
-    expect(result).to.deep.equal({ name:'error', type:'Error' });
+    expect(result).to.deep.equal({
+      discriminator: 'property',
+      name:'error',
+      type:'Error'
+    });
   });
 });

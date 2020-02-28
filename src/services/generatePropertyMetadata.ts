@@ -1,13 +1,7 @@
 import { OpenAPIV3 } from "openapi-types";
 import { generateObjectMetadata } from './generateObjectMetadata';
-
-function isNonArraySchemaObject(obj:any): obj is OpenAPIV3.NonArraySchemaObject {
-  return typeof obj.type === 'string';
-}
-
-function isReferenceObject(obj:any): obj is OpenAPIV3.ReferenceObject {
-  return typeof obj.$ref === 'string';
-}
+import {isNonArraySchemaObject, isReferenceObject} from "./guards";
+import {generateReferenceMetadata} from "./generateReferenceMetadata";
 
 type StringMap = { [key:string]: string };
 
@@ -33,7 +27,7 @@ export function generatePropertyMetadata(name:string, schema:OpenAPIV3.NonArrayS
       }
     }
 
-    return { name, type };
+    return { discriminator:'property', name, type };
   }
 
   if(isReferenceObject(schema)) {
@@ -42,11 +36,15 @@ export function generatePropertyMetadata(name:string, schema:OpenAPIV3.NonArrayS
     }
 
     if(!options.referenceMap[schema.$ref]) {
-      throw new Error(`Unabled to find reference: ${schema.$ref}`);
+      throw new Error(`Unable to find reference: ${schema.$ref}`);
     }
 
-    const type = options.referenceMap[schema.$ref];
-    return { name, type };
+    const aliasMetadata = generateReferenceMetadata(name, schema);
+    return {
+      discriminator: 'property',
+      name,
+      type: aliasMetadata.type
+    };
   }
 
   throw new Error('Unknown schema object provided');

@@ -2,7 +2,7 @@ import 'mocha';
 import { expect } from 'chai';
 import { generateObjectMetadata } from '../src/services/generateObjectMetadata';
 
-describe.only('generateObjectMetadata', function() {
+describe('generateObjectMetadata', function() {
   it('should generate metadata with simple properties', function() {
     const result = generateObjectMetadata('profile', {
       type: 'object',
@@ -21,13 +21,21 @@ describe.only('generateObjectMetadata', function() {
     });
 
     expect(result).to.deep.equal({
+      discriminator:'object',
       name:'profile',
-      type:'object',
-      properties: [
-        { name:'firstname', type:'string' },
-        { name:'birthday', type:'string' },
-        { name:'age', type:'integer' }
-      ]
+      properties: [{
+        discriminator: 'property',
+        name:'firstname',
+        type:'string'
+      }, {
+        discriminator: 'property',
+        name:'birthday',
+        type:'string'
+      }, {
+        discriminator: 'property',
+        name:'age',
+        type:'integer'
+      }]
     });
   });
 
@@ -51,16 +59,21 @@ describe.only('generateObjectMetadata', function() {
     });
 
     expect(result).to.deep.equal({
+      discriminator:'object',
       name:'profile',
-      type:'object',
       properties: [
         {
+          discriminator:'object',
           name:'contactInfo',
-          type:'object',
-          properties: [
-            { name:'phone', type:'string' },
-            { name:'email', type:'string' }
-          ]
+          properties: [{
+            discriminator: 'property',
+            name:'phone',
+            type:'string'
+          }, {
+            discriminator: 'property',
+            name:'email',
+            type:'string'
+          }]
         }
       ]
     })

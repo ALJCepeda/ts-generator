@@ -1,10 +1,13 @@
 interface PropertyMetadata {
+  discriminator: 'alias' | 'property';
   name: string;
   type: string;
 }
 
+type ReferenceMetadata = PropertyMetadata;
+
 interface ObjectMetadata {
+  discriminator: 'object';
   name: string;
-  type: 'object';
   properties: Array<PropertyMetadata | ObjectMetadata>;
 }
