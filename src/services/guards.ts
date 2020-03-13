@@ -1,4 +1,9 @@
 import {OpenAPIV3} from "openapi-types";
+import {ObjectSchema} from "./generateObjectMetadata";
+
+export function isObjectSchema(obj:any): obj is ObjectSchema {
+  return obj.type === 'object';
+}
 
 export function isNonArraySchemaObject(obj:any): obj is OpenAPIV3.NonArraySchemaObject {
   return typeof obj.type === 'string';

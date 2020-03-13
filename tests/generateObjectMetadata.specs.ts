@@ -26,14 +26,17 @@ describe('generateObjectMetadata', function() {
       properties: [{
         discriminator: 'property',
         name:'firstname',
+        required: false,
         type:'string'
       }, {
         discriminator: 'property',
         name:'birthday',
+        required: false,
         type:'string'
       }, {
         discriminator: 'property',
         name:'age',
+        required: false,
         type:'integer'
       }]
     });
@@ -68,10 +71,12 @@ describe('generateObjectMetadata', function() {
           properties: [{
             discriminator: 'property',
             name:'phone',
+            required: false,
             type:'string'
           }, {
             discriminator: 'property',
             name:'email',
+            required: false,
             type:'string'
           }]
         }

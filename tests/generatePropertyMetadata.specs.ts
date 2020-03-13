@@ -2,7 +2,7 @@ import 'mocha';
 import { expect } from 'chai';
 import { generatePropertyMetadata } from '../src/services/generatePropertyMetadata';
 
-describe.only('generatePropertyMetadata', function() {
+describe('generatePropertyMetadata', function() {
   it('should create metadata for string type', function() {
     const result = generatePropertyMetadata('firstname', { type:'string' });
     expect(result).to.deep.equal({

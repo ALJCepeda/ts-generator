@@ -38,6 +38,7 @@ describe('generateModelMetadata', function() {
       properties: [{
         discriminator: 'property',
         name: 'firstname',
+        required: false,
         type: 'string'
       }]
     }]);
