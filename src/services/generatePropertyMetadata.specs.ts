@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import { generatePropertyMetadata } from '../src/services/generatePropertyMetadata';
+import { generatePropertyMetadata } from './generatePropertyMetadata';
 
 describe('generatePropertyMetadata', function() {
   it('should create metadata for string type', function() {

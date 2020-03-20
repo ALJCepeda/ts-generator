@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import {generateReferenceMetadata} from "../src/services/generateReferenceMetadata";
+import {generateReferenceMetadata} from "./generateReferenceMetadata";
 
 describe('generateReferenceMetadata', function() {
   it('should grab type off of definition', function() {

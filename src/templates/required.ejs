@@ -1,0 +1,8 @@
+Required<
+  <$ lines.forEach((line) => { -%>
+    <%- line.schema %><%- line.operator %>
+  <% } -%>,
+  <% required.forEach((property, index) => { -%>
+    <%- property %><%- index === required.length - 1 ? ',' : '' %>
+  <% }); -%>
+>s

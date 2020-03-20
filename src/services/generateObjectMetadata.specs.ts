@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import { generateObjectMetadata } from '../src/services/generateObjectMetadata';
+import { generateObjectMetadata } from './generateObjectMetadata';
 
 describe('generateObjectMetadata', function() {
   it('should generate metadata with simple properties', function() {

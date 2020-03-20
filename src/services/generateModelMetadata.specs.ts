@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import {generateModelMetadata} from "../src/services/generateModelMetadata";
+import {generateModelMetadata} from "./generateModelMetadata";
 
 describe('generateModelMetadata', function() {
   it('should generate an array of model metadata', function() {

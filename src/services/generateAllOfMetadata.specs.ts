@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import {generateAllOfMetadata} from "../src/services/generateAllOfMetadata";
+import {generateAllOfMetadata} from "./generateAllOfMetadata";
 
 describe('generateAllOfMetadata', function() {
   it('should grab types from array', function() {

@@ -25,7 +25,7 @@ function renderTypes(referenceMetadata:ReferenceMetadata[]): Promise<string>[] {
 export async function renderMetadata(metadata:RenderMetadata): Promise<RenderedContent> {
   const objectMetadata = metadata.models.filter((modelMetadata) => isObjectMetadata(modelMetadata)) as ObjectMetadata[];
   const referenceMetadata = metadata.models.filter((modelMetadata) => isReferenceMetadata(modelMetadata)) as ReferenceMetadata[];
-
+  
   const interfaces = await Promise.all(renderInterfaces(objectMetadata));
   const types = await Promise.all(renderTypes(referenceMetadata));
 

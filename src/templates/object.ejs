@@ -1,0 +1,5 @@
+{
+<% properties.forEach((propMetadata) => { -%>
+  <%- propMetadata.name %><%- !propMetadata.required ? '?' : '' %>: <%- propMetadata.type %>;
+<% }) -%>
+}

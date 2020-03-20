@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev src/index",
-    "test": "ts-mocha tests/**/*.specs.ts"
+    "test": "ts-mocha src/**/*.specs.ts"
   },
   "author": "",
   "license": "ISC",
