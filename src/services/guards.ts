@@ -1,12 +1,20 @@
 import {OpenAPIV3} from "openapi-types";
-import {ObjectSchema} from "./generateObjectMetadata";
+import {AllOfSchema, ArraySchema, ObjectSchema, ScalarSchema} from "../extensions";
+
+export function isScalarSchema(obj:any): obj is ScalarSchema {
+  return ['string', 'number', 'boolean', 'null', 'integer'].includes(obj.type);
+}
 
 export function isObjectSchema(obj:any): obj is ObjectSchema {
   return obj.type === 'object';
 }
 
-export function isNonArraySchemaObject(obj:any): obj is OpenAPIV3.NonArraySchemaObject {
-  return typeof obj.type === 'string';
+export function isArraySchema(obj:any): obj is ArraySchema {
+  return obj.type === 'array';
+}
+
+export function isAllOfSchema(obj:any): obj is AllOfSchema {
+  return Array.isArray(obj.allOf);
 }
 
 export function isReferenceObject(obj:any): obj is OpenAPIV3.ReferenceObject {

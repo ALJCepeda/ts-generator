@@ -4,7 +4,7 @@ import { generateObjectMetadata } from './generateObjectMetadata';
 
 describe('generateObjectMetadata', function() {
   it('should generate metadata with simple properties', function() {
-    const result = generateObjectMetadata('profile', {
+    const result = generateObjectMetadata({
       type: 'object',
       properties: {
         firstname: {
@@ -22,28 +22,33 @@ describe('generateObjectMetadata', function() {
 
     expect(result).to.deep.equal({
       discriminator:'object',
-      name:'profile',
       properties: [{
-        discriminator: 'property',
         name:'firstname',
         required: false,
-        type:'string'
+        schema: {
+          discriminator: 'type',
+          type: 'string'
+        }
       }, {
-        discriminator: 'property',
         name:'birthday',
         required: false,
-        type:'string'
+        schema: {
+          discriminator: 'type',
+          type: 'string'
+        }
       }, {
-        discriminator: 'property',
         name:'age',
         required: false,
-        type:'integer'
+        schema: {
+          discriminator: 'type',
+          type: 'integer'
+        }
       }]
     });
   });
 
   it('should generate metadata with nested objects', function() {
-    const result = generateObjectMetadata('profile', {
+    const result = generateObjectMetadata({
       type: 'object',
       properties: {
         contactInfo: {
@@ -63,22 +68,30 @@ describe('generateObjectMetadata', function() {
 
     expect(result).to.deep.equal({
       discriminator:'object',
-      name:'profile',
       properties: [
         {
-          discriminator:'object',
           name:'contactInfo',
-          properties: [{
-            discriminator: 'property',
-            name:'phone',
-            required: false,
-            type:'string'
-          }, {
-            discriminator: 'property',
-            name:'email',
-            required: false,
-            type:'string'
-          }]
+          required: false,
+          schema: {
+            discriminator: 'object',
+            properties: [
+              {
+                name: 'phone',
+                required: false,
+                schema: {
+                  discriminator: 'type',
+                  type: 'string'
+                }
+              }, {
+                name: 'email',
+                required: false,
+                schema: {
+                  discriminator: 'type',
+                  type: 'string'
+                }
+              }
+            ]
+          }
         }
       ]
     })

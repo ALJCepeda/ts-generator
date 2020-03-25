@@ -36,10 +36,12 @@ describe('generateModelMetadata', function() {
       discriminator: 'object',
       name: 'Person',
       properties: [{
-        discriminator: 'property',
         name: 'firstname',
         required: false,
-        type: 'string'
+        schema: {
+          discriminator: 'type',
+          type: 'string'
+        }
       }]
     }]);
   });

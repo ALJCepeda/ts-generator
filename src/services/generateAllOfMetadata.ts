@@ -1,7 +1,7 @@
 import {OpenAPIV3} from "openapi-types";
-import {isNonArraySchemaObject, isReferenceObject} from "./guards";
-import {generateReferenceMetadata} from "./generateReferenceMetadata";
-import {generateObjectMetadata} from "./generateObjectMetadata";
+import {isObjectSchema} from "./guards";
+import {generateSchemaMetadata} from "./generateSchemaMetadata";
+import {AllOfSchema} from "../extensions";
 
 function getOutstandingRequired(schema:OpenAPIV3.SchemaObject): string[] {
   if(!schema.required) {
@@ -16,29 +16,23 @@ function getOutstandingRequired(schema:OpenAPIV3.SchemaObject): string[] {
   return schema.required.filter((name) => !propertyKeys.includes(name));
 }
 
-export function generateAllOfMetadata(name:string, schemas:Array<OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject>) {
-  return schemas.reduce((result, schema) => {
-    if(isReferenceObject(schema)) {
-      const referenceMetadata = generateReferenceMetadata(name, schema);
-      delete referenceMetadata.name;
-      result.types.push(referenceMetadata);
-    }
+export function generateAllOfMetadata(schema:AllOfSchema): AllOfMetadata {
+  return schema.allOf.reduce((result, schema) => {
+    const schemaMetadata = generateSchemaMetadata(schema);
 
-    if(isNonArraySchemaObject(schema)) {
-      const objectMetadata = generateObjectMetadata(name, schema);
-
-      if(objectMetadata.properties.length > 0) {
-        delete objectMetadata.name;
-        result.types.push(objectMetadata);
-      }
-
+    if(isObjectSchema(schema)) {
       result.required = result.required.concat(getOutstandingRequired(schema));
+
+      if((schemaMetadata as ObjectMetadata).properties.length === 0) {
+        return result;
+      }
     }
 
+    result.types.push(schemaMetadata);
     return result;
   }, {
-    name,
-    types: [] as Array<ReferenceMetadata | ObjectMetadata>,
+    discriminator: 'allOf',
+    types: [] as Array<SchemaMetadata>,
     required: [] as string[]
   });
 }

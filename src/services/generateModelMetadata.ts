@@ -1,7 +1,5 @@
 import {OpenAPIV3} from "openapi-types";
-import {isNonArraySchemaObject, isReferenceObject} from "./guards";
-import {generateReferenceMetadata} from "./generateReferenceMetadata";
-import {generateObjectMetadata} from "./generateObjectMetadata";
+import {generateSchemaMetadata} from "./generateSchemaMetadata";
 
 
 function getSchemas(document:OpenAPIV3.Document): { [key: string]: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject } {
@@ -12,20 +10,19 @@ function getSchemas(document:OpenAPIV3.Document): { [key: string]: OpenAPIV3.Ref
   return document.components.schemas;
 }
 
-export function generateModelMetadata(document:OpenAPIV3.Document):Array<ReferenceMetadata | ObjectMetadata> {
+export function generateModelMetadata(document:OpenAPIV3.Document):Array<SchemaMetadata> {
   const schemas = getSchemas(document);
 
   return Object.entries(schemas).reduce((result, [name, schema]) => {
-    if(isReferenceObject(schema)) {
-      const aliasMetadata = generateReferenceMetadata(name, schema);
-      result.push(aliasMetadata);
-    } else if(isNonArraySchemaObject(schema)) {
-      const objectMetadata = generateObjectMetadata(name, schema);
-      result.push(objectMetadata);
+    const schemaMetadata = generateSchemaMetadata(schema);
+
+    if(schemaMetadata) {
+      schemaMetadata.name = name;
+      result.push(schemaMetadata);
     }
 
     return result;
-  }, [] as Array<ReferenceMetadata | ObjectMetadata>).sort((a, b) => {
+  }, [] as Array<SchemaMetadata>).sort((a) => {
     if(a.discriminator === 'reference') {
       return -1;
     }

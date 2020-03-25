@@ -4,27 +4,40 @@ import {generateAllOfMetadata} from "./generateAllOfMetadata";
 
 describe('generateAllOfMetadata', function() {
   it('should grab types from array', function() {
-    const result = generateAllOfMetadata('contact', [
-      { $ref: '#/components/schemas/person' },
-      {
-        type: 'object',
-        required: ['address', 'other'],
-        properties: {
-          address: { type: "string" }
+    const result = generateAllOfMetadata({
+      allOf: [
+        {
+          $ref: '#/components/schemas/person'
+        }, {
+          type: 'object',
+          required: ['address', 'other'],
+          properties: {
+            address: { type: "string" }
+          }
+        }, {
+          type: 'object',
+          required: ['name']
         }
-      },
-      {
-        type: 'object',
-        required: ['name']
-      }
-    ]);
+      ]
+    });
 
     expect(result).to.deep.equal({
-      name: 'contact',
+      discriminator: 'allOf',
       types: [
-        { discriminator: 'reference',  type: 'person' },
-        { discriminator: 'object', properties: [
-          { discriminator: 'property', name: 'address', type: 'string', required: true }
+        {
+          discriminator: 'reference',
+          type: 'person'
+        }, {
+          discriminator: 'object',
+          properties: [
+            {
+              name: 'address',
+              required: true ,
+              schema: {
+                discriminator: 'type',
+                type: 'string'
+              }
+            }
         ]}
       ],
       required: [ 'other', 'name' ]

@@ -6,20 +6,24 @@ describe('generatePropertyMetadata', function() {
   it('should create metadata for string type', function() {
     const result = generatePropertyMetadata('firstname', { type:'string' });
     expect(result).to.deep.equal({
-      discriminator: 'property',
       name: 'firstname',
-      type: 'string',
-      required: false
+      required: false,
+      schema: {
+        discriminator: 'type',
+        type: 'string'
+      }
     });
   });
 
   it('should create metadata for string type and make it required', function() {
     const result = generatePropertyMetadata('firstname', { type:'string' }, { required:['firstname'] });
     expect(result).to.deep.equal({
-      discriminator: 'property',
       name: 'firstname',
-      type: 'string',
-      required: true
+      required: true,
+      schema: {
+        discriminator: 'type',
+        type: 'string'
+      }
     });
   });
 
@@ -32,10 +36,12 @@ describe('generatePropertyMetadata', function() {
     });
 
     expect(result).to.deep.equal({
-      discriminator: 'property',
       name:'birthday',
-      type:'Moment',
-      required: false
+      required: false,
+      schema: {
+        discriminator: 'type',
+        type: 'Moment'
+      }
     })
   });
 
@@ -48,10 +54,12 @@ describe('generatePropertyMetadata', function() {
     });
 
     expect(result).to.deep.equal({
-      discriminator: 'property',
       name:'ip',
-      type:'ipv4',
-      required: false
+      required: false,
+      schema: {
+        discriminator: 'type',
+        type: 'ipv4'
+      }
     });
   });
 
@@ -63,10 +71,12 @@ describe('generatePropertyMetadata', function() {
     });
 
     expect(result).to.deep.equal({
-      discriminator: 'property',
       name:'error',
-      type:'Error',
-      required: false
+      required: false,
+      schema: {
+        discriminator: 'reference',
+        type: 'Error'
+      }
     });
   });
 });

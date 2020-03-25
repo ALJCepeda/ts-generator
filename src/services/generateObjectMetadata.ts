@@ -1,21 +1,11 @@
 import {OpenAPIV3} from "openapi-types";
-import { generatePropertyMetadata } from './generatePropertyMetadata';
+import {generatePropertyMetadata} from './generatePropertyMetadata';
+import {ObjectSchema} from "../extensions";
 import NonArraySchemaObject = OpenAPIV3.NonArraySchemaObject;
-import {isObjectSchema} from "./guards";
 
-export interface ObjectSchema extends OpenAPIV3.NonArraySchemaObject {
-  type: 'object';
-  properties: {
-    [name: string]: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject;
-  }
-}
+export function generateObjectMetadata(schema:ObjectSchema): ObjectMetadata {
+  let properties:Array<PropertyMetadata<SchemaMetadata>> = [];
 
-export function generateObjectMetadata(name: string, schema:OpenAPIV3.NonArraySchemaObject): ObjectMetadata {
-  if(!isObjectSchema(schema)) {
-    throw new Error('Schema must have type equal to "object"');
-  }
-
-  let properties:Array<PropertyMetadata | ObjectMetadata> = [];
   if(schema.properties) {
     properties = Object.entries(schema.properties).reduce((result, [propName, propSchema]) => {
       const propMetadata = generatePropertyMetadata(propName, propSchema as NonArraySchemaObject, {
@@ -24,12 +14,11 @@ export function generateObjectMetadata(name: string, schema:OpenAPIV3.NonArraySc
 
       result.push(propMetadata);
       return result;
-    }, [] as Array<PropertyMetadata | ObjectMetadata>);
+    }, [] as Array<PropertyMetadata<SchemaMetadata>>);
   }
 
   return {
     discriminator:'object',
-    name,
     properties
   };
 }
