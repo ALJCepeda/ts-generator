@@ -1,28 +1,25 @@
-import {OpenAPIV3} from "openapi-types";
 import {
-  isAllOfSchema,
+  isAllOfSchema, isAnyOfSchema,
   isArraySchema,
   isObjectSchema,
-  isReferenceObject,
+  isReferenceSchema,
   isScalarSchema
 } from "./guards";
-import {generateReferenceMetadata} from "./generateReferenceMetadata";
 import {generateObjectMetadata} from "./generateObjectMetadata";
 import {generateArrayMetadata} from "./generateArrayMetadata";
-import {generateAllOfMetadata} from "./generateAllOfMetadata";
+import {generateCombinatorialMetadata} from "./generateCombinatorialMetadata";
 import {generateTypeMetadata} from "./generateTypeMetadata";
+import {SchemaDefinition} from "../extensions";
 
-export function generateSchemaMetadata(schema:OpenAPIV3.SchemaObject | OpenAPIV3.ReferenceObject, options:GeneratePropertyMetadataOptions = {}): SchemaMetadata {
-  if(isScalarSchema(schema)) {
+export function generateSchemaMetadata(schema:SchemaDefinition, options:GeneratePropertyMetadataOptions = {}): SchemaMetadata {
+  if(isScalarSchema(schema) || isReferenceSchema(schema)) {
     return generateTypeMetadata(schema, options);
-  } else if(isReferenceObject(schema)) {
-    return generateReferenceMetadata(schema);
   } else if(isObjectSchema(schema)) {
     return generateObjectMetadata(schema);
   } else if(isArraySchema(schema)) {
     return generateArrayMetadata(schema);
-  } else if(isAllOfSchema(schema)) {
-    return generateAllOfMetadata(schema);
+  } else if(isAllOfSchema(schema) || isAnyOfSchema(schema)) {
+    return generateCombinatorialMetadata(schema);
   }
 
   throw new Error('Unable to generate metadata from schema: Unrecognized type');

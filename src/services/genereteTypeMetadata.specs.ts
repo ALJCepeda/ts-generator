@@ -1,15 +1,15 @@
 import 'mocha';
 import { expect } from 'chai';
-import {generateReferenceMetadata} from "./generateReferenceMetadata";
+import {generateTypeMetadata} from "./generateTypeMetadata";
 
-describe('generateReferenceMetadata', function() {
+describe('generateTypeMetadata', function() {
   it('should grab type off of definition', function() {
-    const result = generateReferenceMetadata({
+    const result = generateTypeMetadata({
       $ref: '#/components/schemas/Error'
     });
 
     expect(result).to.deep.equal({
-      discriminator: 'reference',
+      discriminator: 'type',
       type:'Error'
     });
   });

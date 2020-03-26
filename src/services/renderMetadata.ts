@@ -1,5 +1,5 @@
 import * as ejs from "ejs";
-import {isObjectMetadata, isReferenceMetadata} from "./guards";
+import {isObjectMetadata, isTypeMetadata} from "./guards";
 
 interface RenderedContent {
   interfaces: string[]
@@ -7,7 +7,7 @@ interface RenderedContent {
 }
 
 interface RenderMetadata {
-  models: Array<ReferenceMetadata | ObjectMetadata>
+  models: Array<SchemaMetadata>
 }
 
 function renderInterfaces(interfaceMetadata:ObjectMetadata[]): Promise<string>[] {
@@ -16,7 +16,7 @@ function renderInterfaces(interfaceMetadata:ObjectMetadata[]): Promise<string>[]
   });
 }
 
-function renderTypes(referenceMetadata:ReferenceMetadata[]): Promise<string>[] {
+function renderTypes(referenceMetadata:TypeMetadata[]): Promise<string>[] {
   return referenceMetadata.map((referenceMetadata) => {
     return ejs.renderFile('src/templates/type.ejs', referenceMetadata);
   });
@@ -24,7 +24,7 @@ function renderTypes(referenceMetadata:ReferenceMetadata[]): Promise<string>[] {
 
 export async function renderMetadata(metadata:RenderMetadata): Promise<RenderedContent> {
   const objectMetadata = metadata.models.filter((modelMetadata) => isObjectMetadata(modelMetadata)) as ObjectMetadata[];
-  const referenceMetadata = metadata.models.filter((modelMetadata) => isReferenceMetadata(modelMetadata)) as ReferenceMetadata[];
+  const referenceMetadata = metadata.models.filter((modelMetadata) => isTypeMetadata(modelMetadata)) as TypeMetadata[];
   
   const interfaces = await Promise.all(renderInterfaces(objectMetadata));
   const types = await Promise.all(renderTypes(referenceMetadata));

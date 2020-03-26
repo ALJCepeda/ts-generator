@@ -1,18 +1,7 @@
-import {OpenAPIV3} from "openapi-types";
 import {generateSchemaMetadata} from "./generateSchemaMetadata";
+import {SchemaDefinition} from "../extensions";
 
-
-function getSchemas(document:OpenAPIV3.Document): { [key: string]: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject } {
-  if(!document.components || !document.components.schemas) {
-    return {};
-  }
-
-  return document.components.schemas;
-}
-
-export function generateModelMetadata(document:OpenAPIV3.Document):Array<SchemaMetadata> {
-  const schemas = getSchemas(document);
-
+export function generateModelMetadata(schemas:{ [key: string]: SchemaDefinition }):Array<SchemaMetadata> {
   return Object.entries(schemas).reduce((result, [name, schema]) => {
     const schemaMetadata = generateSchemaMetadata(schema);
 
@@ -22,11 +11,5 @@ export function generateModelMetadata(document:OpenAPIV3.Document):Array<SchemaM
     }
 
     return result;
-  }, [] as Array<SchemaMetadata>).sort((a) => {
-    if(a.discriminator === 'reference') {
-      return -1;
-    }
-
-    return 1;
-  });
+  }, [] as Array<SchemaMetadata>);
 }

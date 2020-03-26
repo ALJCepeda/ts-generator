@@ -1,18 +1,31 @@
-import {ScalarSchema} from "../extensions";
+import {ReferenceSchema, ScalarSchema} from "../extensions";
+import {isReferenceSchema, isScalarSchema} from "./guards";
 
-export function generateTypeMetadata(schema:ScalarSchema, options:GeneratePropertyMetadataOptions = {}): TypeMetadata {
-  let type = schema.type as string;
-
-  if(schema.format) {
-    if(options.formatMap && options.formatMap[schema.format]) {
-      type = options.formatMap[schema.format];
-    } else if(options.useFormatAsType === true) {
-      type = schema.format;
-    }
+export function generateTypeMetadata(schema:ScalarSchema | ReferenceSchema, options:GeneratePropertyMetadataOptions = {}): TypeMetadata {
+  if(isReferenceSchema(schema)) {
+    const parts = schema.$ref.split('/');
+    return {
+      discriminator: 'type',
+      type: parts[parts.length - 1]
+    };
   }
 
-  return {
-    discriminator:'type',
-    type
-  };
+  if(isScalarSchema(schema)) {
+    let type = schema.type as string;
+
+    if(schema.format) {
+      if(options.formatMap && options.formatMap[schema.format]) {
+        type = options.formatMap[schema.format];
+      } else if(options.useFormatAsType === true) {
+        type = schema.format;
+      }
+    }
+
+    return {
+      discriminator:'type',
+      type
+    };
+  }
+
+  throw new Error(`Unable able to generate type metadata from schema`);
 }

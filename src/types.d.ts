@@ -1,4 +1,4 @@
-type SchemaMetadata = TypeMetadata | ReferenceMetadata | ObjectMetadata | ArrayMetadata | AllOfMetadata;
+type SchemaMetadata = TypeMetadata | ObjectMetadata | ArrayMetadata | AllOfMetadata | AnyOfMetadata;
 
 interface TypeMetadata {
   name?: string;
@@ -10,12 +10,6 @@ type PropertyMetadata<T> = {
   name: string;
   required: boolean;
   schema:T
-}
-
-interface ReferenceMetadata {
-  name?: string;
-  type: string;
-  discriminator: 'reference';
 }
 
 interface ObjectMetadata {
@@ -30,11 +24,18 @@ interface ArrayMetadata {
   items: SchemaMetadata
 }
 
-interface AllOfMetadata {
+interface CombinatorialMetadata {
   name?: string;
-  discriminator: 'allOf',
-  types: Array<SchemaMetadata>,
+  schemas: Array<SchemaMetadata>,
   required: string[]
+}
+
+interface AllOfMetadata extends CombinatorialMetadata {
+  discriminator: 'allOf'
+}
+
+interface AnyOfMetadata extends CombinatorialMetadata {
+  discriminator: 'anyOf'
 }
 
 type StringMap = { [key:string]: string };

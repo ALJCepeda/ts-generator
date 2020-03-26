@@ -1,0 +1,7 @@
+<% schemas.forEach((schema, index) => { _%>
+  <%_ %><%- include('schema', schema) _%>
+  <%_ if(index < schemas.length - 1) { _%>
+    <%_ if(discriminator === 'allOf') { %> & <% } _%>
+    <%_ if(discriminator === 'anyOf') { %> | <% } _%>
+  <%_ } _%>
+<% }); %>

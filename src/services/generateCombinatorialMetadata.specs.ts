@@ -1,10 +1,10 @@
 import 'mocha';
 import { expect } from 'chai';
-import {generateAllOfMetadata} from "./generateAllOfMetadata";
+import {generateCombinatorialMetadata} from "./generateCombinatorialMetadata";
 
-describe('generateAllOfMetadata', function() {
-  it('should grab types from array', function() {
-    const result = generateAllOfMetadata({
+describe('generateCombinatorialMetadata', function() {
+  it('should generate allOf schema', function() {
+    const result = generateCombinatorialMetadata({
       allOf: [
         {
           $ref: '#/components/schemas/person'
@@ -23,9 +23,9 @@ describe('generateAllOfMetadata', function() {
 
     expect(result).to.deep.equal({
       discriminator: 'allOf',
-      types: [
+      schemas: [
         {
-          discriminator: 'reference',
+          discriminator: 'type',
           type: 'person'
         }, {
           discriminator: 'object',

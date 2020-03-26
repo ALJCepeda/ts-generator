@@ -74,7 +74,7 @@ describe('generatePropertyMetadata', function() {
       name:'error',
       required: false,
       schema: {
-        discriminator: 'reference',
+        discriminator: 'type',
         type: 'Error'
       }
     });

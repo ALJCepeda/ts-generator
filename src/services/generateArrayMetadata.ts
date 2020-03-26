@@ -1,7 +1,7 @@
-import {OpenAPIV3} from "openapi-types";
 import {generateSchemaMetadata} from "./generateSchemaMetadata";
+import {ArraySchema} from "../extensions";
 
-export function generateArrayMetadata(schema:OpenAPIV3.ArraySchemaObject): ArrayMetadata {
+export function generateArrayMetadata(schema:ArraySchema): ArrayMetadata {
   return {
     discriminator: 'array',
     items: generateSchemaMetadata(schema.items)
