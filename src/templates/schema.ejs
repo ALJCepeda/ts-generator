@@ -4,7 +4,7 @@
     <%_ %><%- include('type') _%>
 <% } else if(discriminator === 'object') { _%>
     <%_ %><%- include('object') _%>
-<% } else if(discriminator === 'allOf' || discriminator === 'anyOf') { _%>
+<% } else if(discriminator === 'allOf' || discriminator === 'anyOf' || discriminator === 'oneOf') { _%>
     <%_ %><%- include('combinatorial') _%>
 <% } else if(discriminator === 'array') { _%>
     <%_ %><%- include('array') _%>

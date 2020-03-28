@@ -12,7 +12,7 @@ interface RenderMetadata {
 
 function renderInterfaces(interfaceMetadata:ObjectMetadata[]): Promise<string>[] {
   return interfaceMetadata.map((interfaceMetadata) => {
-    return ejs.renderFile('src/templates/interface.ejs', interfaceMetadata);
+    return ejs.renderFile('src/templates/model.ejs', interfaceMetadata);
   });
 }
 

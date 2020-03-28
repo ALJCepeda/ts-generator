@@ -1,4 +1,4 @@
-type SchemaMetadata = TypeMetadata | ObjectMetadata | ArrayMetadata | AllOfMetadata | AnyOfMetadata;
+type SchemaMetadata = TypeMetadata | ObjectMetadata | ArrayMetadata | AllOfMetadata | AnyOfMetadata | OneOfMetadata;
 
 interface TypeMetadata {
   name?: string;

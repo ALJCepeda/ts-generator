@@ -1,0 +1,5 @@
+<% if(discriminator === 'object') { _%>
+    <%_ %>interface <%- name %> <%- include('schema'); _%>
+<% } else { _%>
+    <%_ %>type <%- name %> = <%- include('schema'); _%>
+<% } %>
