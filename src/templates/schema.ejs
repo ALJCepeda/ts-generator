@@ -1,6 +1,11 @@
-<% if(discriminator === 'type') { _%>
+<% if(Array.isArray(locals.required) && locals.required.length > 0) { _%>
+    <%_ %><%- include('required') _%>
+<% } else if(discriminator === 'type') { _%>
     <%_ %><%- include('type') _%>
-<% } _%>
-<% if(discriminator === 'object') { _%>
+<% } else if(discriminator === 'object') { _%>
     <%_ %><%- include('object') _%>
+<% } else if(discriminator === 'allOf' || discriminator === 'anyOf') { _%>
+    <%_ %><%- include('combinatorial') _%>
+<% } else if(discriminator === 'array') { _%>
+    <%_ %><%- include('array') _%>
 <% } _%>

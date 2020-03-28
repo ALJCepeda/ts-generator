@@ -38,6 +38,10 @@ interface AnyOfMetadata extends CombinatorialMetadata {
   discriminator: 'anyOf'
 }
 
+interface OneOfMetadata extends CombinatorialMetadata {
+  discriminator: 'oneOf'
+}
+
 type StringMap = { [key:string]: string };
 
 interface GeneratePropertyMetadataOptions {

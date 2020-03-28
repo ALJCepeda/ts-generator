@@ -5,7 +5,7 @@ import {generateCombinatorialMetadata} from "../services/generateCombinatorialMe
 
 describe('combinatorial.ejs', function() {
   async function renderTemplate(data:any) {
-    return renderFile('src/templates/combinatorial.ejs', data, { cache:true });
+    return renderFile('src/templates/schema.ejs', data, { cache:true });
   }
 
   it('should render several types', async function() {

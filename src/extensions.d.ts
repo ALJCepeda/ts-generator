@@ -1,29 +1,33 @@
-import {OpenAPIV3} from "openapi-types";
+import {OpenAPIObject, ReferenceObject, SchemaObject} from "openapi3-ts";
 
-type SwaggerDocument = OpenAPIV3.Document;
-type ReferenceSchema = OpenAPIV3.ReferenceObject;
-type SchemaDefinition = OpenAPIV3.SchemaObject | ReferenceSchema;
+type SwaggerDocument = OpenAPIObject;
+type ReferenceSchema = ReferenceObject;
+type SchemaDefinition = SchemaObject | ReferenceObject;
 
-export interface ScalarSchema extends OpenAPIV3.NonArraySchemaObject {
+export interface ScalarSchema extends SchemaObject {
   type: 'string' | 'number' | 'boolean' | 'null' | 'integer';
 }
 
-export interface ObjectSchema extends OpenAPIV3.NonArraySchemaObject {
+export interface ObjectSchema extends SchemaObject {
   type: 'object';
   properties: {
     [name: string]: SchemaDefinition;
   }
 }
 
-export interface ArraySchema extends OpenAPIV3.ArraySchemaObject {
+export interface ArraySchema extends SchemaObject {
   type: 'array';
   items: SchemaDefinition;
 }
 
-export interface AllOfSchema extends OpenAPIV3.BaseSchemaObject {
+export interface AllOfSchema extends SchemaObject {
   allOf: Array<SchemaDefinition>;
 }
 
-export interface AnyOfSchema extends OpenAPIV3.BaseSchemaObject {
+export interface AnyOfSchema extends SchemaObject {
   anyOf: Array<SchemaDefinition>;
+}
+
+export interface OneOfSchema extends SchemaObject {
+  oneOf: Array<SchemaDefinition>;
 }

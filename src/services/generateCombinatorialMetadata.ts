@@ -1,6 +1,6 @@
-import {isAllOfSchema, isAnyOfSchema, isObjectSchema} from "./guards";
+import {isAllOfSchema, isAnyOfSchema, isObjectSchema, isOneOfSchema} from "./guards";
 import {generateSchemaMetadata} from "./generateSchemaMetadata";
-import {AllOfSchema, AnyOfSchema, ObjectSchema, SchemaDefinition} from "../extensions";
+import {AllOfSchema, AnyOfSchema, ObjectSchema, OneOfSchema, SchemaDefinition} from "../extensions";
 
 function getOutstandingRequired(schema:ObjectSchema): string[] {
   if(!schema.required) {
@@ -32,10 +32,10 @@ function createCombinatorialMetadata(schemas:SchemaDefinition[]): CombinatorialM
   }, {
     schemas: [] as Array<SchemaMetadata>,
     required: [] as string[]
-  });
+  } as CombinatorialMetadata);
 }
 
-export function generateCombinatorialMetadata(schema:AllOfSchema | AnyOfSchema): AllOfMetadata | AnyOfMetadata {
+export function generateCombinatorialMetadata(schema:AllOfSchema | AnyOfSchema | OneOfSchema): AllOfMetadata | AnyOfMetadata | OneOfMetadata {
   if(isAllOfSchema(schema)) {
     const metadata = createCombinatorialMetadata(schema.allOf);
     return {
@@ -48,6 +48,14 @@ export function generateCombinatorialMetadata(schema:AllOfSchema | AnyOfSchema):
     const metadata = createCombinatorialMetadata(schema.anyOf);
     return {
       discriminator: 'anyOf',
+      ...metadata
+    };
+  }
+
+  if(isOneOfSchema(schema)) {
+    const metadata = createCombinatorialMetadata(schema.oneOf);
+    return {
+      discriminator: 'oneOf',
       ...metadata
     };
   }

@@ -1,7 +1,7 @@
 import {
   isAllOfSchema, isAnyOfSchema,
   isArraySchema,
-  isObjectSchema,
+  isObjectSchema, isOneOfSchema,
   isReferenceSchema,
   isScalarSchema
 } from "./guards";
@@ -18,7 +18,7 @@ export function generateSchemaMetadata(schema:SchemaDefinition, options:Generate
     return generateObjectMetadata(schema);
   } else if(isArraySchema(schema)) {
     return generateArrayMetadata(schema);
-  } else if(isAllOfSchema(schema) || isAnyOfSchema(schema)) {
+  } else if(isAllOfSchema(schema) || isAnyOfSchema(schema) || isOneOfSchema(schema)) {
     return generateCombinatorialMetadata(schema);
   }
 

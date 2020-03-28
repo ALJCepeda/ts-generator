@@ -1,11 +1,11 @@
 import * as yaml from 'js-yaml';
 import { readFileSync, createWriteStream } from 'fs';
-import { OpenAPIV3 } from "openapi-types";
 import {generateModelMetadata} from "./services/generateModelMetadata";
 import {renderMetadata} from "./services/renderMetadata";
 import {getSchemas} from "./services/getSchemas";
+import {OpenAPIObject} from "openapi3-ts";
 
-const document = yaml.safeLoad(readFileSync('src/swagger.yaml', 'utf8')) as OpenAPIV3.Document;
+const document = yaml.safeLoad(readFileSync('src/swagger.yaml', 'utf8')) as OpenAPIObject;
 
 const schemas = getSchemas(document);
 const modelMetadata = generateModelMetadata(schemas);

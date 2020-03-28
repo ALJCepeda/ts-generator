@@ -2,6 +2,6 @@
   <%_ %><%- include('schema', schema) _%>
   <%_ if(index < schemas.length - 1) { _%>
     <%_ if(discriminator === 'allOf') { %> & <% } _%>
-    <%_ if(discriminator === 'anyOf') { %> | <% } _%>
+    <%_ if(discriminator === 'anyOf' || discriminator === 'oneOf') { %> | <% } _%>
   <%_ } _%>
 <% }); %>

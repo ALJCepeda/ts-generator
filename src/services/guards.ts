@@ -1,4 +1,12 @@
-import {AllOfSchema, AnyOfSchema, ArraySchema, ObjectSchema, ReferenceSchema, ScalarSchema} from "../extensions";
+import {
+  AllOfSchema,
+  AnyOfSchema,
+  ArraySchema,
+  ObjectSchema,
+  OneOfSchema,
+  ReferenceSchema,
+  ScalarSchema
+} from "../extensions";
 
 export function isScalarSchema(obj:any): obj is ScalarSchema {
   return ['string', 'number', 'boolean', 'null', 'integer'].includes(obj.type);
@@ -22,6 +30,10 @@ export function isAllOfSchema(obj:any): obj is AllOfSchema {
 
 export function isAnyOfSchema(obj:any): obj is AnyOfSchema {
   return Array.isArray(obj.anyOf);
+}
+
+export function isOneOfSchema(obj:any): obj is OneOfSchema {
+  return Array.isArray(obj.oneOf);
 }
 
 export function isObjectMetadata(obj:any): obj is ObjectMetadata {
