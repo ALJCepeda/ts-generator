@@ -9,7 +9,7 @@ interface TypeMetadata {
 type PropertyMetadata<T> = {
   name: string;
   required: boolean;
-  schema:T
+  schema: T;
 }
 
 interface ObjectMetadata {
@@ -21,32 +21,49 @@ interface ObjectMetadata {
 interface ArrayMetadata {
   name?: string;
   discriminator: 'array';
-  items: SchemaMetadata
+  items: SchemaMetadata;
 }
 
 interface CombinatorialMetadata {
   name?: string;
-  schemas: Array<SchemaMetadata>,
-  required: string[]
+  schemas: Array<SchemaMetadata>;
+  required: string[];
 }
 
 interface AllOfMetadata extends CombinatorialMetadata {
-  discriminator: 'allOf'
+  discriminator: 'allOf';
 }
 
 interface AnyOfMetadata extends CombinatorialMetadata {
-  discriminator: 'anyOf'
+  discriminator: 'anyOf';
 }
 
 interface OneOfMetadata extends CombinatorialMetadata {
-  discriminator: 'oneOf'
+  discriminator: 'oneOf';
 }
 
 type StringMap = { [key:string]: string };
 
 interface GeneratePropertyMetadataOptions {
-  required?: string[],
-  formatMap?: StringMap,
-  referenceMap?: StringMap,
-  useFormatAsType?: boolean
+  required?: string[];
+  formatMap?: StringMap;
+  referenceMap?: StringMap;
+  useFormatAsType?: boolean;
+}
+
+interface  GeneratedMetadata {
+  schemas: SchemaMetadata[];
+}
+
+interface MetadataAnalysis {
+  hasRequired: boolean;
+}
+
+interface RenderData {
+  metadata: GeneratedMetadata;
+  analysis: MetadataAnalysis;
+}
+
+interface RenderedContent {
+  schemas: string[]
 }

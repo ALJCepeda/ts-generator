@@ -40,6 +40,18 @@ export function isObjectMetadata(obj:any): obj is ObjectMetadata {
   return obj.discriminator === 'object';
 }
 
-export function isTypeMetadata(obj:any): obj is TypeMetadata {
-  return obj.discriminator === 'type';
+export function isAllOfMetadata(obj:any): obj is AllOfMetadata {
+  return obj.discriminator === 'allOf';
+}
+
+export function isAnyOfMetadata(obj:any): obj is AnyOfMetadata {
+  return obj.discriminator === 'anyOf';
+}
+
+export function isOneOfMetadata(obj:any): obj is OneOfMetadata {
+  return obj.discriminator === 'oneOf';
+}
+
+export function isCombinatorialMetadata(obj:any): obj is CombinatorialMetadata {
+  return isAllOfMetadata(obj) || isAnyOfMetadata(obj) || isOneOfMetadata(obj);
 }

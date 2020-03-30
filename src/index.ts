@@ -1,29 +1,19 @@
 import * as yaml from 'js-yaml';
-import {readFileSync, createWriteStream, mkdirSync} from 'fs';
-import {generateModelMetadata} from "./services/schema/generateModelMetadata";
+import {readFileSync} from 'fs';
 import {renderMetadata} from "./services/renderMetadata";
-import {getSchemas} from "./services/schema/getSchemas";
 import {OpenAPIObject} from "openapi3-ts";
+import {generateMetadata} from "./services/generateMetadata";
+import {analyzeMetadata} from "./services/analyzeMetadata";
+import {writeContent} from "./services/writeContent";
+import {createDirectories} from "./services/createDirectories";
 
 const document = yaml.safeLoad(readFileSync('src/swagger.yaml', 'utf8')) as OpenAPIObject;
+const metadata = generateMetadata(document);
+const analysis = analyzeMetadata(metadata);
 
-const schemas = getSchemas(document);
-const schemaMetadatas = generateModelMetadata(schemas);
-
-try {
-  mkdirSync('gen');
-} catch(e) {
-  if(e.code !== 'EEXIST') {
-    throw e;
-  }
-}
+createDirectories([ 'gen' ]);
 
 renderMetadata({
-  schemas: schemaMetadatas
-}).then((content) => {
-  const declarationFile = createWriteStream('gen/types.d.ts');
-
-  content.schemas.forEach((schemaCode) => declarationFile.write(schemaCode + '\n\n'));
-
-  declarationFile.end();
-});
+  metadata,
+  analysis
+}).then((content) => writeContent('gen/types.d.ts', content));
