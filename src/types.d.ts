@@ -65,5 +65,6 @@ interface RenderData {
 }
 
 interface RenderedContent {
-  schemas: string[]
+  schemas: string[];
+  utility: string[];
 }

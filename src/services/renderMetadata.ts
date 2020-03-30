@@ -6,10 +6,20 @@ function renderSchemas(schemaMetadatas:SchemaMetadata[]): Promise<string>[] {
   });
 }
 
+function renderUtility(analysis:MetadataAnalysis): Promise<string>[] {
+  const promises = [];
+
+  if(analysis.hasRequired) {
+    promises.push(ejs.renderFile('src/templates/utility/require.ejs'));
+  }
+
+  return promises;
+}
+
+
 export async function renderMetadata(renderData: RenderData): Promise<RenderedContent> {
   const schemas = await Promise.all(renderSchemas(renderData.metadata.schemas));
+  const utility = await Promise.all(renderUtility(renderData.analysis));
 
-  return {
-    schemas
-  };
+  return { schemas, utility };
 }

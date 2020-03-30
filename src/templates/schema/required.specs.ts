@@ -24,7 +24,7 @@ describe('required.ejs', function() {
 
     const result = await renderFile('src/templates/schema/schema.ejs', metadata);
     expect(result).to.equal('' +
-      'Required<Person & {\n' +
+      'Require<Person & {\n' +
       '  address: string;\n' +
       '}, "other" | "name">')
   });
