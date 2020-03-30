@@ -1,11 +1,11 @@
 import 'mocha';
 import {expect} from 'chai';
 import {renderFile } from 'ejs';
-import {generateCombinatorialMetadata} from "../services/generateCombinatorialMetadata";
+import {generateCombinatorialMetadata} from "../../services/schema/generateCombinatorialMetadata";
 
 describe('combinatorial.ejs', function() {
   async function renderTemplate(data:any) {
-    return renderFile('src/templates/schema.ejs', data, { cache:true });
+    return renderFile('src/templates/schema/schema.ejs', data, { cache:true });
   }
 
   it('should render several types', async function() {

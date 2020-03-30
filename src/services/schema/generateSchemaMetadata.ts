@@ -4,12 +4,12 @@ import {
   isObjectSchema, isOneOfSchema,
   isReferenceSchema,
   isScalarSchema
-} from "./guards";
+} from "../guards";
 import {generateObjectMetadata} from "./generateObjectMetadata";
 import {generateArrayMetadata} from "./generateArrayMetadata";
 import {generateCombinatorialMetadata} from "./generateCombinatorialMetadata";
 import {generateTypeMetadata} from "./generateTypeMetadata";
-import {SchemaDefinition} from "../extensions";
+import {SchemaDefinition} from "../../extensions";
 
 export function generateSchemaMetadata(schema:SchemaDefinition, options:GeneratePropertyMetadataOptions = {}): SchemaMetadata {
   if(isScalarSchema(schema) || isReferenceSchema(schema)) {

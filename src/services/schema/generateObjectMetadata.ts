@@ -1,5 +1,5 @@
 import {generatePropertyMetadata} from './generatePropertyMetadata';
-import {ObjectSchema} from "../extensions";
+import {ObjectSchema} from "../../extensions";
 
 export function generateObjectMetadata(schema:ObjectSchema): ObjectMetadata {
   let properties:Array<PropertyMetadata<SchemaMetadata>> = [];

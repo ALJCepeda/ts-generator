@@ -1,5 +1,5 @@
-import {ReferenceSchema, ScalarSchema} from "../extensions";
-import {isReferenceSchema, isScalarSchema} from "./guards";
+import {ReferenceSchema, ScalarSchema} from "../../extensions";
+import {isReferenceSchema, isScalarSchema} from "../guards";
 
 export function generateTypeMetadata(schema:ScalarSchema | ReferenceSchema, options:GeneratePropertyMetadataOptions = {}): TypeMetadata {
   if(isReferenceSchema(schema)) {
@@ -19,6 +19,10 @@ export function generateTypeMetadata(schema:ScalarSchema | ReferenceSchema, opti
       } else if(options.useFormatAsType === true) {
         type = schema.format;
       }
+    }
+
+    if(type === 'integer') {
+      type = 'number';
     }
 
     return {

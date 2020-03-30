@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import {generateCombinatorialMetadata} from "../services/generateCombinatorialMetadata";
+import {generateCombinatorialMetadata} from "../../services/schema/generateCombinatorialMetadata";
 import {renderFile} from "ejs";
 
 describe('required.ejs', function() {
@@ -22,7 +22,7 @@ describe('required.ejs', function() {
       ]
     });
 
-    const result = await renderFile('src/templates/schema.ejs', metadata);
+    const result = await renderFile('src/templates/schema/schema.ejs', metadata);
     expect(result).to.equal('' +
       'Required<Person & {\n' +
       '  address: string;\n' +

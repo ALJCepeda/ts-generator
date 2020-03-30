@@ -1,23 +1,29 @@
 import * as yaml from 'js-yaml';
-import { readFileSync, createWriteStream } from 'fs';
-import {generateModelMetadata} from "./services/generateModelMetadata";
+import {readFileSync, createWriteStream, mkdirSync} from 'fs';
+import {generateModelMetadata} from "./services/schema/generateModelMetadata";
 import {renderMetadata} from "./services/renderMetadata";
-import {getSchemas} from "./services/getSchemas";
+import {getSchemas} from "./services/schema/getSchemas";
 import {OpenAPIObject} from "openapi3-ts";
 
 const document = yaml.safeLoad(readFileSync('src/swagger.yaml', 'utf8')) as OpenAPIObject;
 
 const schemas = getSchemas(document);
-const modelMetadata = generateModelMetadata(schemas);
+const schemaMetadatas = generateModelMetadata(schemas);
+
+try {
+  mkdirSync('gen');
+} catch(e) {
+  if(e.code !== 'EEXIST') {
+    throw e;
+  }
+}
 
 renderMetadata({
-  models: modelMetadata
+  schemas: schemaMetadatas
 }).then((content) => {
   const declarationFile = createWriteStream('gen/types.d.ts');
 
-  content.types.forEach((typeCode) => declarationFile.write(typeCode + ';\n'));
-  declarationFile.write('\n');
-  content.interfaces.forEach((interfaceCode) => declarationFile.write(interfaceCode + '\n'));
+  content.schemas.forEach((schemaCode) => declarationFile.write(schemaCode + '\n\n'));
 
   declarationFile.end();
 });

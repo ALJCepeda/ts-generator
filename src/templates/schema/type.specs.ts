@@ -1,14 +1,14 @@
 import 'mocha';
 import {expect} from 'chai';
 import {renderFile} from 'ejs';
-import {generateTypeMetadata} from "../services/generateTypeMetadata";
+import {generateTypeMetadata} from "../../services/schema/generateTypeMetadata";
 
 describe('type.ejs', function() {
   it('should render type metadata', async function() {
     const metadata = generateTypeMetadata({
       type: 'string'
     });
-    const result = await renderFile('src/templates/schema.ejs', metadata, { cache: true });
+    const result = await renderFile('src/templates/schema/schema.ejs', metadata, { cache: true });
 
     expect(result).to.equal('string');
   });
@@ -18,7 +18,7 @@ describe('type.ejs', function() {
       $ref: '#/components/schemas/Error'
     });
 
-    const result = await renderFile('src/templates/schema.ejs', metadata, { cache: true });
+    const result = await renderFile('src/templates/schema/schema.ejs', metadata, { cache: true });
 
     expect(result).to.equal('Error');
   })

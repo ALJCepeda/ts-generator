@@ -1,5 +1,5 @@
 import {generateSchemaMetadata} from "./generateSchemaMetadata";
-import {SchemaDefinition} from "../extensions";
+import {SchemaDefinition} from "../../extensions";
 
 export function generateModelMetadata(schemas:{ [key: string]: SchemaDefinition }):Array<SchemaMetadata> {
   return Object.entries(schemas).reduce((result, [name, schema]) => {

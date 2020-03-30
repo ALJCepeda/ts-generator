@@ -1,5 +1,5 @@
 import {generateSchemaMetadata} from "./generateSchemaMetadata";
-import {SchemaDefinition} from "../extensions";
+import {SchemaDefinition} from "../../extensions";
 
 function isRequired(name:string, options:GeneratePropertyMetadataOptions): boolean {
   return Array.isArray(options.required) && options.required.includes(name);

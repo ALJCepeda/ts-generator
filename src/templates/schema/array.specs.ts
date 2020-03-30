@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import {generateArrayMetadata} from "../services/generateArrayMetadata";
+import {generateArrayMetadata} from "../../services/schema/generateArrayMetadata";
 import {renderFile} from "ejs";
 
 describe('array.ejs', function() {
@@ -26,7 +26,7 @@ describe('array.ejs', function() {
       }
     });
 
-    const result = await renderFile('src/templates/schema.ejs', metadata);
+    const result = await renderFile('src/templates/schema/schema.ejs', metadata);
     expect(result).to.equal('' +
       'Array<{\n' +
       '  firstname?: string;\n' +

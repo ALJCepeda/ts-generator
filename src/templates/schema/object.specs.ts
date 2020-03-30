@@ -1,7 +1,7 @@
 import 'mocha';
 import {expect} from 'chai';
 import {renderFile} from 'ejs';
-import {generateObjectMetadata} from "../services/generateObjectMetadata";
+import {generateObjectMetadata} from "../../services/schema/generateObjectMetadata";
 
 describe('object.ejs', function() {
   it('should render multiple properties', async function() {
@@ -15,7 +15,7 @@ describe('object.ejs', function() {
       required: [ 'firstname' ]
     });
 
-    const result = await renderFile('src/templates/schema.ejs', metadata, { cache: true });
+    const result = await renderFile('src/templates/schema/schema.ejs', metadata, { cache: true });
 
     expect(result).to.be.equal('{\n' +
       '  firstname: string;\n' +

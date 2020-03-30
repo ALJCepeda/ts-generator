@@ -1,6 +1,6 @@
-import {isAllOfSchema, isAnyOfSchema, isObjectSchema, isOneOfSchema} from "./guards";
+import {isAllOfSchema, isAnyOfSchema, isObjectSchema, isOneOfSchema} from "../guards";
 import {generateSchemaMetadata} from "./generateSchemaMetadata";
-import {AllOfSchema, AnyOfSchema, ObjectSchema, OneOfSchema, SchemaDefinition} from "../extensions";
+import {AllOfSchema, AnyOfSchema, ObjectSchema, OneOfSchema, SchemaDefinition} from "../../extensions";
 
 function getOutstandingRequired(schema:ObjectSchema): string[] {
   if(!schema.required) {

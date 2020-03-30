@@ -1,11 +1,11 @@
 import 'mocha';
 import {expect} from 'chai';
 import {renderFile} from 'ejs';
-import {generateModelMetadata} from "../services/generateModelMetadata";
+import {generateModelMetadata} from "../../services/schema/generateModelMetadata";
 
 describe('model.ejs', function() {
   async function renderTemplate(data:any) {
-    return renderFile('src/templates/model.ejs', data, { cache:true });
+    return renderFile('src/templates/schema/model.ejs', data, { cache:true });
   }
 
   it('should render interface from object schema', async function() {
@@ -49,6 +49,6 @@ describe('model.ejs', function() {
       'type Error = GenericError | {\n' +
       '  status?: number;\n' +
       '  message?: string;\n' +
-      '} | OtherError');
+      '} | OtherError;');
   })
 });

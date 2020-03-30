@@ -7,7 +7,7 @@ describe('generateCombinatorialMetadata', function() {
     const result = generateCombinatorialMetadata({
       allOf: [
         {
-          $ref: '#/components/schemas/person'
+          $ref: '#/components/schemas/Person'
         }, {
           type: 'object',
           required: ['address', 'other'],
@@ -26,7 +26,7 @@ describe('generateCombinatorialMetadata', function() {
       schemas: [
         {
           discriminator: 'type',
-          type: 'person'
+          type: 'Person'
         }, {
           discriminator: 'object',
           properties: [

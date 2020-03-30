@@ -41,7 +41,7 @@ describe('generateObjectMetadata', function() {
         required: false,
         schema: {
           discriminator: 'type',
-          type: 'integer'
+          type: 'number'
         }
       }]
     });
