@@ -1,5 +1,5 @@
 import {ReferenceSchema, ScalarSchema} from "../../extensions";
-import {isReferenceSchema, isScalarSchema} from "../guards";
+import {isReferenceSchema, isScalarSchema} from "../../guards";
 
 export function generateTypeMetadata(schema:ScalarSchema | ReferenceSchema, options:GeneratePropertyMetadataOptions = {}): TypeMetadata {
   if(isReferenceSchema(schema)) {

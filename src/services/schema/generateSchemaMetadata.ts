@@ -4,7 +4,7 @@ import {
   isObjectSchema, isOneOfSchema,
   isReferenceSchema,
   isScalarSchema
-} from "../guards";
+} from "../../guards";
 import {generateObjectMetadata} from "./generateObjectMetadata";
 import {generateArrayMetadata} from "./generateArrayMetadata";
 import {generateCombinatorialMetadata} from "./generateCombinatorialMetadata";

@@ -1,4 +1,4 @@
-import {isCombinatorialMetadata} from "./guards";
+import {isCombinatorialMetadata} from "../guards";
 
 export function analyzeMetadata(metadata:GeneratedMetadata): MetadataAnalysis {
   const analysis = {

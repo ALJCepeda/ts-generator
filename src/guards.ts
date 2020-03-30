@@ -6,7 +6,7 @@ import {
   OneOfSchema,
   ReferenceSchema,
   ScalarSchema
-} from "../extensions";
+} from "./extensions";
 
 export function isScalarSchema(obj:any): obj is ScalarSchema {
   return ['string', 'number', 'boolean', 'null', 'integer'].includes(obj.type);
