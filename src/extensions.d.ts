@@ -1,4 +1,11 @@
-import {OpenAPIObject, ReferenceObject, SchemaObject} from "openapi3-ts";
+import {
+  ContentObject,
+  OpenAPIObject,
+  OperationObject,
+  ReferenceObject,
+  ResponseObject,
+  SchemaObject
+} from "openapi3-ts";
 
 type SwaggerDocument = OpenAPIObject;
 type ReferenceSchema = ReferenceObject;
@@ -30,4 +37,12 @@ export interface AnyOfSchema extends SchemaObject {
 
 export interface OneOfSchema extends SchemaObject {
   oneOf: Array<SchemaDefinition>;
+}
+
+export interface OperationSchema extends OperationObject {
+  operationId: string;
+}
+
+export interface ResponseSchema extends ResponseObject {
+  content: ContentObject;
 }

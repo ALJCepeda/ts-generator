@@ -75,7 +75,7 @@ paths:
       requestBody:
         description: Fields to update on TimelineEntry
         content:
-          application/json:
+          application/json:p
             schema:
               $ref: '#/components/schemas/TimelineEntryMutts'
     delete:
